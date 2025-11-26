@@ -9,12 +9,12 @@ import mediapipe as mp
 import numpy as np
 from config_space import config
 
-# === Global monotonic timestamp for MediaPipe VIDEO mode ===
+# Global monotonic timestamp for MediaPipe VIDEO mode
 _GLOBAL_T0 = time.time()
 def _now_ms():
     return int((time.time() - _GLOBAL_T0) * 1000)
 
-# ==== MediaPipe Hands (Tasks API) ====
+# MediaPipe Hands 
 BaseOptions = mp.tasks.BaseOptions
 VisionRunningMode = mp.tasks.vision.RunningMode
 HandLandmarker = mp.tasks.vision.HandLandmarker
@@ -90,7 +90,7 @@ with HandLandmarker.create_from_options(options) as landmarker:
         cap.set(cv2.CAP_PROP_FRAME_WIDTH, config.fixed_width)
         cap.set(cv2.CAP_PROP_FRAME_HEIGHT, config.fixed_height)
 
-    # Game world (screen coords in pixels)
+    # Game world 
     W = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))  or 960
     H = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)) or 540
 
@@ -209,7 +209,7 @@ with HandLandmarker.create_from_options(options) as landmarker:
 
         cv2.imshow("SPACE Hand Landmarker", frame)
         key = cv2.waitKey(1) & 0xFF
-        if key == 27: break  # ESC
+        if key == 27: break  
         time.sleep(config.frame_sleep)
 
         # end conditions
@@ -225,7 +225,7 @@ with HandLandmarker.create_from_options(options) as landmarker:
     rows = [[time.strftime("%Y-%m-%d %H:%M:%S"), shots, hits, (hits/shots if shots else 0.0), (len([1 for e in enemies if not e.alive])), config.session_seconds]]
     save_csv(out_csv, rows)
 
-    print("=== SESSION SUMMARY ===")
+    print("   SESSION SUMMARY   ")
     print(f"Shots: {shots}  Hits: {hits}  Acc: {(100.0*hits/shots if shots else 0.0):.1f}%")
     print(f"Enemies destroyed: {len([1 for e in enemies if not e.alive])}")
     print(f"Metrics saved to: {out_csv}")
